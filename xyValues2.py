@@ -13,7 +13,7 @@ while True:
     
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    results = model.predict(img)
+    results = model.predict(img, conf=0.6)
 
     for r in results:
         
@@ -28,20 +28,20 @@ while True:
             #annotator.box_label(b, model.names[int(c)])
             annotator.box_label(b, str(b))
 
-            x = b.numpy()[0]
-            y = b.numpy()[1]
-            h = b.numpy()[2]
-            w = b.numpy()[3]
-            print("Coordinates: ", x, y, w, h)
+            x1 = b.numpy()[0]
+            y1 = b.numpy()[1]
+            x2 = b.numpy()[2]
+            y2 = b.numpy()[3]
+            print("Coordinates: ", x1, y1, x2, y2)
             #print("Datatype of b is: ", type(b))
 
-            #circle1 = cv2.circle(frame, (int(0.492 + 0.469), int(0.625 + 0.416)), 30, (0, 255, 100), 2)
-            circle1 = cv2.circle(frame, (int(x+(h/4)), int(y+(h/2))), 30, (0, 255, 100), 2)
+
+            circle1 = cv2.circle(frame, (int(x1+((x2-x1)/2)),int(y1+((y2-y1)/2)) ), 6, (0, 255, 100), 4)
 
             print(b)
 
     frame = annotator.result()
-    #circle1 = cv2.circle(frame, (320, 240), 30, (0, 255, 100), 2)
+
     cv2.imshow('YOLO V8 Detection', frame)
     if cv2.waitKey(1) & 0xFF == ord(' '):
         break
