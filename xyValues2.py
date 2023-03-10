@@ -1,10 +1,13 @@
+####IVC ROBOTICS TEAM###
+#Prototype - Yolo implementation
+
 from ultralytics import YOLO
 import cv2
 from ultralytics.yolo.utils.plotting import Annotator
 
 
-model = YOLO('best.pt')
-cap = cv2.VideoCapture(0)
+model = YOLO('best.pt') #bottle model
+cap = cv2.VideoCapture(0) #input from camera
 cap.set(3, 640)
 cap.set(4, 480)
 
@@ -13,7 +16,7 @@ while True:
     
     img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    results = model.predict(img, conf=0.6)
+    results = model.predict(img, conf=0.6) #here adjust confidence
 
     for r in results:
         
@@ -34,7 +37,6 @@ while True:
             y2 = b.numpy()[3]
             print("Coordinates: ", x1, y1, x2, y2)
             #print("Datatype of b is: ", type(b))
-
 
             circle1 = cv2.circle(frame, (int(x1+((x2-x1)/2)),int(y1+((y2-y1)/2)) ), 6, (0, 255, 100), 4)
 
